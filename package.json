@@ -1,0 +1,19 @@
+{
+  "name": "k8mvc-admin",
+  "version": "0.0.2",
+  "description": "Admin controllers for k8mvc",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/digi3colin/k8mvc-admin.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/digi3colin/k8mvc-admin/issues"
+  },
+  "homepage": "https://github.com/digi3colin/k8mvc-admin#readme"
+}
