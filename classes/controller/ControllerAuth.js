@@ -1,15 +1,16 @@
 const K8     = require('k8mvc');
 const ControllerMixinView = K8.require('controller-mixin/View');
 const ControllerMixinMultipartForm = K8.require('controller-mixin/MultipartForm');
+const ControllerMixinMultiDomainDB = K8.require('controller-mixin/MultiDomainDB');
 
 const Controller         = K8.require('Controller');
 const Auth               = K8.require('Auth');
-
 
 class ControllerAuth extends Controller{
   constructor(request, response) {
     super(request, response);
 
+    this.addMixin(new ControllerMixinMultiDomainDB(this));
     this.addMixin(this.mixinView = new ControllerMixinView(this));
     this.addMixin(new ControllerMixinMultipartForm(this));
 
