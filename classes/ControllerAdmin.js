@@ -4,6 +4,7 @@ const ControllerMixinView = K8.require('controller-mixin/View');
 const ControllerMixinORM = K8.require('controller-mixin/ORM');
 const ControllerMixinORMWrite = K8.require('controller-mixin/ORMWrite');
 const ControllerMixinORMEdit = K8.require('controller-mixin/ORMEdit');
+const ControllerMixinMultiDomainDB = K8.require('controller-mixin/MultiDomainDB');
 
 const ORM = K8.require('ORM');
 
@@ -15,10 +16,12 @@ class ControllerAdmin extends Controller{
     }
 
     this.layout = 'layout/admin/default';
+    this.templateFolder = 'templates/admin/';
     this.tpl = null;
 
     this.id = null;
 
+    this.addMixin(new ControllerMixinMultiDomainDB(this));
     this.addMixin(this.mixinView = new ControllerMixinView(this));
     this.addMixin(this.mixinORM = new ControllerMixinORM(this));
     this.addMixin(this.mixinORMWrite = new ControllerMixinORMWrite(this));
@@ -38,13 +41,14 @@ class ControllerAdmin extends Controller{
 
   action_index(){
     const instances = this.mixinORM.action_index();
-    this.tpl = this.mixinView.getView('templates/admin/index', {items: instances, type: this.model});
+    const data = {items: instances, type: this.model};
+    this.tpl = this.mixinView.getView(this.templateFolder+'index', data);
   }
 
   action_read() {
     const instance = this.mixinORM.action_read();
     const data = this.mixinORMEdit.action_edit(instance);
-    this.tpl = this.mixinView.getView('templates/admin/edit', data);
+    this.tpl = this.mixinView.getView(this.templateFolder+'edit', data);
   }
 
   action_create(){
@@ -60,7 +64,7 @@ class ControllerAdmin extends Controller{
       });
     }
     const data = this.mixinORMEdit.action_edit(instance);
-    this.tpl = this.mixinView.getView('templates/admin/edit', data);
+    this.tpl = this.mixinView.getView(this.templateFolder+'edit', data);
   }
 
   action_update(){
