@@ -16,7 +16,12 @@ class ControllerAdmin extends Controller{
     }
 
     this.layout = 'layout/admin/default';
-    this.templateFolder = 'templates/admin/';
+    this.templates = {
+      index : 'templates/admin/index',
+      read  : 'templates/admin/edit',
+      create: 'templates/admin/edit',
+      dialog: 'templates/admin/dialog'
+    };
     this.tpl = null;
 
     this.id = null;
@@ -42,13 +47,13 @@ class ControllerAdmin extends Controller{
   action_index(){
     const instances = this.mixinORM.action_index();
     const data = {items: instances, type: this.model};
-    this.tpl = this.mixinView.getView(this.templateFolder+'index', data);
+    this.tpl = this.mixinView.getView(this.templates.index, data);
   }
 
   action_read() {
     const instance = this.mixinORM.action_read();
     const data = this.mixinORMEdit.action_edit(instance);
-    this.tpl = this.mixinView.getView(this.templateFolder+'edit', data);
+    this.tpl = this.mixinView.getView(this.templates.read, data);
   }
 
   action_create(){
@@ -64,7 +69,7 @@ class ControllerAdmin extends Controller{
       });
     }
     const data = this.mixinORMEdit.action_edit(instance);
-    this.tpl = this.mixinView.getView(this.templateFolder+'edit', data);
+    this.tpl = this.mixinView.getView(this.templates.create, data);
   }
 
   action_update(){
@@ -85,7 +90,7 @@ class ControllerAdmin extends Controller{
     }
 
     if(!this.request.query['confirm']){
-      this.mixinView.getView('templates/admin/dialog', {
+      this.tpl = this.mixinView.getView(this.templates.dialog, {
         title: `Please confirm to delete ${this.model.name} (${this.id})`,
         message : `Are you sure?`,
         cancelURL : `/admin/${this.model.tableName}`,
@@ -97,7 +102,7 @@ class ControllerAdmin extends Controller{
 
     ORM.prepare(`DELETE FROM ${this.model.tableName} WHERE id = ?`).run(this.id);
 
-    this.redirectAfterFormSubmit(`admin/${this.model.tableName}`);
+    this.redirectAfterFormSubmit(`/admin/${this.model.tableName}`);
   }
 }
 
