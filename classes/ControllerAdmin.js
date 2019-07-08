@@ -5,6 +5,7 @@ const ControllerMixinORM = K8.require('controller-mixin/ORM');
 const ControllerMixinORMWrite = K8.require('controller-mixin/ORMWrite');
 const ControllerMixinORMEdit = K8.require('controller-mixin/ORMEdit');
 const ControllerMixinMultiDomainDB = K8.require('controller-mixin/MultiDomainDB');
+const ControllerMixinAdminActionLogger = K8.require('controller-mixin/AdminActionLogger');
 
 const ORM = K8.require('ORM');
 
@@ -26,6 +27,7 @@ class ControllerAdmin extends Controller{
 
     this.id = null;
 
+    this.addMixin(new ControllerMixinAdminActionLogger(this));
     this.addMixin(new ControllerMixinMultiDomainDB(this));
     this.addMixin(this.mixinView = new ControllerMixinView(this));
     this.addMixin(this.mixinORM = new ControllerMixinORM(this));
@@ -35,7 +37,7 @@ class ControllerAdmin extends Controller{
 
   async before(){
     await super.before();
-    Object.assign(this.mixinView.view.data, {
+    Object.assign(this.view.data, {
       model            : this.model,
       action           : this.request.params.action,
       user_full_name   : this.request.session.user_full_name,
