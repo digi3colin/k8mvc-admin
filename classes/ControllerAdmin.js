@@ -30,7 +30,7 @@ class ControllerAdmin extends Controller{
     this.addMixin(new ControllerMixinAdminActionLogger(this));
     this.addMixin(new ControllerMixinMultiDomainDB(this));
     this.addMixin(this.mixinView = new ControllerMixinView(this));
-    this.addMixin(this.mixinORM = new ControllerMixinORM(this));
+    this.addMixin(new ControllerMixinORM(this));
     this.addMixin(this.mixinORMWrite = new ControllerMixinORMWrite(this));
     this.addMixin(this.mixinORMEdit = new ControllerMixinORMEdit(this));
   }
@@ -47,14 +47,12 @@ class ControllerAdmin extends Controller{
   }
 
   action_index(){
-    const instances = this.mixinORM.action_index();
-    const data = {items: instances, type: this.model};
+    const data = {items: this.instances, type: this.model};
     this.tpl = this.mixinView.getView(this.templates.index, data);
   }
 
   action_read() {
-    const instance = this.mixinORM.action_read();
-    const data = this.mixinORMEdit.action_edit(instance);
+    const data = this.mixinORMEdit.action_edit(this.instance);
     this.tpl = this.mixinView.getView(this.templates.read, data);
   }
 
