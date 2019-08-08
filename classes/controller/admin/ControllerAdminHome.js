@@ -8,6 +8,6 @@ module.exports = class ControllerAdminHome extends ControllerAdmin{
   }
 
   action_index() {
-    this.tpl = this.mixinView.getView('templates/admin/home', {});
+    this.tpl = this.getView('templates/admin/home', {});
   }
 };

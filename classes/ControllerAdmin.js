@@ -27,12 +27,11 @@ class ControllerAdmin extends Controller{
 
     this.id = null;
 
-
     this.addMixin(new ControllerMixinAdminActionLogger(this));
     this.addMixin(new ControllerMixinMultiDomainDB(this));
-    this.addMixin(this.mixinView = new ControllerMixinView(this));
+    this.addMixin(new ControllerMixinView(this));
     this.addMixin(new ControllerMixinORM(this));
-    this.addMixin(this.mixinORMWrite = new ControllerMixinORMWrite(this));
+    this.addMixin(new ControllerMixinORMWrite(this));
     this.addMixin(new ControllerMixinORMEdit(this));
   }
 
@@ -49,15 +48,15 @@ class ControllerAdmin extends Controller{
 
   action_index(){
     const data = {items: this.instances, type: this.model};
-    this.tpl = this.mixinView.getView(this.templates.index, data);
+    this.tpl = this.getView(this.templates.index, data);
   }
 
   action_read() {
-    this.tpl = this.mixinView.getView(this.templates.read, this.data);
+    this.tpl = this.getView(this.templates.read, this.data);
   }
 
   action_create(){
-    this.tpl = this.mixinView.getView(this.templates.create, this.data);
+    this.tpl = this.getView(this.templates.create, this.data);
   }
 
   action_update(){
@@ -72,12 +71,11 @@ class ControllerAdmin extends Controller{
 
   action_delete(){
     if(!this.id){
-      this.response.code(500);
       throw new Error(`500 / Delete ${this.model.name} require object id`);
     }
 
     if(!this.request.query['confirm']){
-      this.tpl = this.mixinView.getView(this.templates.dialog, {
+      this.tpl = this.getView(this.templates.dialog, {
         title: `Please confirm to delete ${this.model.name} (${this.id})`,
         message : `Are you sure?`,
         cancelURL : `/admin/${this.model.tableName}`,
