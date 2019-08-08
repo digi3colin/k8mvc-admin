@@ -27,12 +27,13 @@ class ControllerAdmin extends Controller{
 
     this.id = null;
 
+
     this.addMixin(new ControllerMixinAdminActionLogger(this));
     this.addMixin(new ControllerMixinMultiDomainDB(this));
     this.addMixin(this.mixinView = new ControllerMixinView(this));
     this.addMixin(new ControllerMixinORM(this));
     this.addMixin(this.mixinORMWrite = new ControllerMixinORMWrite(this));
-    this.addMixin(this.mixinORMEdit = new ControllerMixinORMEdit(this));
+    this.addMixin(new ControllerMixinORMEdit(this));
   }
 
   async before(){
@@ -52,28 +53,14 @@ class ControllerAdmin extends Controller{
   }
 
   action_read() {
-    const data = this.mixinORMEdit.action_edit(this.instance);
-    this.tpl = this.mixinView.getView(this.templates.read, data);
+    this.tpl = this.mixinView.getView(this.templates.read, this.data);
   }
 
   action_create(){
-    const instance = new this.model();
-    const $_GET = this.request.query || {};
-
-    if($_GET['values']){
-      const values = JSON.parse($_GET['values']);
-      Object.keys(instance).forEach(x => {
-        if(values[x] !== undefined){
-          instance[x] = values[x];
-        }
-      });
-    }
-    const data = this.mixinORMEdit.action_edit(instance);
-    this.tpl = this.mixinView.getView(this.templates.create, data);
+    this.tpl = this.mixinView.getView(this.templates.create, this.data);
   }
 
   action_update(){
-    this.mixinORMWrite.action_update();
     this.redirectAfterFormSubmit(`/admin/${this.model.tableName}/${this.id}`);
   }
 

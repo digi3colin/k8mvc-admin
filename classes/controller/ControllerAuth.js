@@ -11,14 +11,14 @@ class ControllerAuth extends Controller{
     super(request, response);
 
     this.addMixin(new ControllerMixinMultiDomainDB(this));
-    this.addMixin(this.mixinView = new ControllerMixinView(this));
+    this.addMixin(new ControllerMixinView(this));
     this.addMixin(new ControllerMixinMultipartForm(this));
 
     Auth.session = this.request.session;
   }
 
   action_login(){
-    this.tpl = this.mixinView.getView('templates/login', {
+    this.tpl = this.getView('templates/login', {
       destination : this.request.query.cp,
       message : '',
     });
@@ -27,14 +27,14 @@ class ControllerAuth extends Controller{
   action_logout(){
     Auth.logout();
 
-    this.tpl = this.mixinView.getView('templates/login', {
+    this.tpl = this.getView('templates/login', {
       destination : '/admin/',
       message : 'User Log Out Successfully.',
     });
   }
 
   action_fail(){
-    this.tpl = this.mixinView.getView('templates/login', {
+    this.tpl = this.getView('templates/login', {
       destination : this.request.query.cp,
       message : 'Login fail.',
     });
