@@ -52,7 +52,7 @@ class ControllerAuth extends Controller{
       return;
     }
 
-    const user = Auth.authorize($_POST['user'], $_POST['password'], this.db);
+    const user = Auth.authorize($_POST['user'], $_POST['password'], this.db, K8.config.salt);
 
     if(!user){
       this.redirect(`/admin/login/fail?cp=${encodeURIComponent(destination)}`);

@@ -1,6 +1,6 @@
 {
   "name": "k8mvc-admin",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "Admin controllers for k8mvc",
   "main": "index.js",
   "scripts": {
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/digi3colin/k8mvc-admin/issues"
   },
-  "homepage": "https://github.com/digi3colin/k8mvc-admin#readme"
+  "homepage": "https://github.com/digi3colin/k8mvc-admin#readme",
+  "dependencies": {
+    "k8mvc-auth": "0.0.4"
+  }
 }
