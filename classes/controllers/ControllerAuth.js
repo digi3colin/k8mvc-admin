@@ -1,3 +1,5 @@
+/* Controller auth handle login, logout*/
+
 const K8     = require('k8mvc');
 const ControllerMixinView = K8.require('controller-mixin/View');
 const ControllerMixinMultipartForm = K8.require('controller-mixin/MultipartForm');
@@ -50,7 +52,7 @@ class ControllerAuth extends Controller{
       return;
     }
 
-    const user = Auth.authorize($_POST['user'], $_POST['password']);
+    const user = Auth.authorize($_POST['user'], $_POST['password'], this.db);
 
     if(!user){
       this.redirect(`/admin/login/fail?cp=${encodeURIComponent(destination)}`);

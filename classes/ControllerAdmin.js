@@ -1,3 +1,5 @@
+/* abstract class of controller require administrator role.*/
+
 const K8 = require('k8mvc');
 const Controller = K8.require('Controller');
 const ControllerMixinView = K8.require('controller-mixin/View');
@@ -6,8 +8,6 @@ const ControllerMixinORMWrite = K8.require('controller-mixin/ORMWrite');
 const ControllerMixinORMEdit = K8.require('controller-mixin/ORMEdit');
 const ControllerMixinMultiDomainDB = K8.require('controller-mixin/MultiDomainDB');
 const ControllerMixinAdminActionLogger = K8.require('controller-mixin/AdminActionLogger');
-
-const ORM = K8.require('ORM');
 
 class ControllerAdmin extends Controller{
   constructor(request, response){
@@ -42,7 +42,7 @@ class ControllerAdmin extends Controller{
       action           : this.request.params.action,
       user_full_name   : this.request.session.user_full_name,
       user_role        : this.request.session.user_role,
-      site             : ORM.prepare('SELECT * FROM shops').get(),
+      site             : this.db.prepare('SELECT * FROM shops').get(),
     })
   }
 
@@ -85,7 +85,7 @@ class ControllerAdmin extends Controller{
       return;
     }
 
-    ORM.prepare(`DELETE FROM ${this.model.tableName} WHERE id = ?`).run(this.id);
+    this.db.prepare(`DELETE FROM ${this.model.tableName} WHERE id = ?`).run(this.id);
 
     this.redirectAfterFormSubmit(`/admin/${this.model.tableName}`);
   }
