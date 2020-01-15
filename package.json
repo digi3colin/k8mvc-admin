@@ -1,6 +1,6 @@
 {
   "name": "k8mvc-admin",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "Admin controllers for k8mvc",
   "main": "index.js",
   "scripts": {

@@ -19,14 +19,14 @@ class ControllerAuth extends Controller{
     Auth.session = this.request.session;
   }
 
-  action_login(){
+  async action_login(){
     this.tpl = this.getView('templates/login', {
       destination : this.request.query.cp,
       message : '',
     });
   }
 
-  action_logout(){
+  async action_logout(){
     Auth.logout();
 
     this.tpl = this.getView('templates/login', {
@@ -35,14 +35,14 @@ class ControllerAuth extends Controller{
     });
   }
 
-  action_fail(){
+  async action_fail(){
     this.tpl = this.getView('templates/login', {
       destination : this.request.query.cp,
       message : 'Login fail.',
     });
   }
 
-  action_auth(){
+  async action_auth(){
     const $_POST      = this.$_POST;
     const destination = (!$_POST['destination'] || $_POST['destination'] === '')? '/admin/' : $_POST['destination'];
 

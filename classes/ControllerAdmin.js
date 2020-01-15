@@ -46,20 +46,20 @@ class ControllerAdmin extends Controller{
     })
   }
 
-  action_index(){
+  async action_index(){
     const data = {items: this.instances, type: this.model};
     this.tpl = this.getView(this.templates.index, data);
   }
 
-  action_read() {
+  async action_read() {
     this.tpl = this.getView(this.templates.read, this.data);
   }
 
-  action_create(){
+  async action_create(){
     this.tpl = this.getView(this.templates.create, this.data);
   }
 
-  action_update(){
+  async action_update(){
     this.redirectAfterFormSubmit(`/admin/${this.model.tableName}/${this.id}`);
   }
 
@@ -69,7 +69,7 @@ class ControllerAdmin extends Controller{
     this.redirect(destination);
   }
 
-  action_delete(){
+  async action_delete(){
     if(!this.id){
       throw new Error(`500 / Delete ${this.model.name} require object id`);
     }
