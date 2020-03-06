@@ -1,6 +1,7 @@
 /* Controller auth handle login, logout*/
 
 const K8     = require('k8mvc');
+const ControllerMixinMime = K8.require('controller-mixin/Mime');
 const ControllerMixinView = K8.require('controller-mixin/View');
 const ControllerMixinMultipartForm = K8.require('controller-mixin/MultipartForm');
 const ControllerMixinMultiDomainDB = K8.require('controller-mixin/MultiDomainDB');
@@ -12,6 +13,7 @@ class ControllerAuth extends Controller{
   constructor(request, response) {
     super(request, response);
 
+    this.addMixin(new ControllerMixinMime(this));
     this.addMixin(new ControllerMixinMultiDomainDB(this));
     this.addMixin(new ControllerMixinView(this));
     this.addMixin(new ControllerMixinMultipartForm(this));

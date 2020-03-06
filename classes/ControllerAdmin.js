@@ -2,6 +2,7 @@
 
 const K8 = require('k8mvc');
 const Controller = K8.require('Controller');
+const ControllerMixinMime = K8.require('controller-mixin/Mime');
 const ControllerMixinView = K8.require('controller-mixin/View');
 const ControllerMixinORM = K8.require('controller-mixin/ORM');
 const ControllerMixinORMWrite = K8.require('controller-mixin/ORMWrite');
@@ -27,6 +28,7 @@ class ControllerAdmin extends Controller{
 
     this.id = null;
 
+    this.addMixin(new ControllerMixinMime(this));
     this.addMixin(new ControllerMixinAdminActionLogger(this));
     this.addMixin(new ControllerMixinMultiDomainDB(this));
     this.addMixin(new ControllerMixinView(this));
